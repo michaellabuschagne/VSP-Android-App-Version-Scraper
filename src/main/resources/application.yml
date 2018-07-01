@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: vsp-android-app-version-scraper
+  output:
+      ansi:
+        enabled: always
+  jackson:
+    default-property-inclusion: non_null
+    serialization:
+      write_dates_as_timestamps: true
+management:
+  endpoints:
+    enabled-by-default: false
+service:
+  props:
+    app:
+      apple:
+        url: "https://itunes.apple.com/app/my-vodacom/id567085004"
+        regex:
+          version:
+            string: "Version.*\\d\\.\\d\\.\\d"
+            multi-match-fail: true
+          decimal:
+            string: "\\d\\.\\d\\.\\d"
+            multi-match-fail: false
+      google:
+        url: "https://play.google.com/store/apps/details?id=za.co.vodacom.android.app&hl=en_ZA"
+        regex:
+          version:
+            string: "Current Version.*\\d\\.\\d\\.\\d"
+            multi-match-fail: true
+          decimal:
+            string: "\\d\\.\\d\\.\\d"
+            multi-match-fail: false
+
+---
+server:
+  port : 8080
+spring:
+  profiles: development
+logging:
+  level:
+    io:
+      mikescode:
+        web: DEBUG
